@@ -59,19 +59,28 @@ Return ONLY a valid JSON array of 24 articles (4 per category), no other text. E
 ]"""
 
     message = client.messages.create(
-        model="claude-opus-4-6",
+        model="claude-sonnet-4-6",
         max_tokens=4000,
         messages=[{"role": "user", "content": prompt}]
     )
     
     response_text = message.content[0].text.strip()
+    print(f"Raw response (first 500 chars): {response_text[:500]}")
     
-    # Extract JSON array from response
-    match = re.search(r'\[.*\]', response_text, re.DOTALL)
-    if not match:
-        raise ValueError("No JSON array found in Claude response")
+    # Strip markdown code fences if present
+    response_text = re.sub(r'^```(?:json)?\s*', '', response_text)
+    response_text = re.sub(r'\s*```$', '', response_text)
+    response_text = response_text.strip()
     
-    articles = json.loads(match.group())
+    # Try direct JSON parse first
+    try:
+        articles = json.loads(response_text)
+    except json.JSONDecodeError:
+        # Fall back to extracting JSON array
+        match = re.search(r'\[.*\]', response_text, re.DOTALL)
+        if not match:
+            raise ValueError(f"No JSON array found in Claude response: {response_text[:300]}")
+        articles = json.loads(match.group())
     
     # Ensure IDs are sequential
     for i, article in enumerate(articles, 1):
