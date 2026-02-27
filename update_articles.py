@@ -15,7 +15,7 @@ For each of the following categories, generate exactly 4 articles from the last 
 
 Categories: Science, Technology, Birds, Modern Warfare, Artificial Intelligence, Financialization
 
-Return ONLY a valid JSON array of 24 articles. Each article must have: id, category (science/technology/birds/warfare/ai/finance), type (research/analysis/commentary/report), headline, source, date, excerpt (2 short sentences max), url (#).
+Return ONLY a valid JSON array of 24 articles. Each article must have: id, category (science/technology/birds/warfare/ai/finance), type (research/analysis/commentary/report), headline, source, date, excerpt (2 short sentences max), url (use the real homepage URL of the source publication, e.g. https://www.nature.com, https://www.foreignaffairs.com, https://www.economist.com).
 
 Example:
 [{{"id":1,"category":"science","type":"research","headline":"Example headline","source":"Nature","date":"{today}","excerpt":"First sentence. Second sentence.","url":"#"}}]"""
