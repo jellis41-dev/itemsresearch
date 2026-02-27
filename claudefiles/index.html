@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Dispatch — Curated Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1714;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --rule: #c8bfa8;
+    --accent: #8b2e0f;
+    --accent-light: #c4451a;
+    --muted: #7a7060;
+    --science: #1a4a6b;
+    --technology: #2d5a3d;
+    --birds: #5a3d6b;
+    --warfare: #6b1a1a;
+    --ai: #1a3d6b;
+    --finance: #4a3d1a;
+    --success: #2d5a3d;
+    --danger: #8b2e0f;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* MASTHEAD */
+  .masthead {
+    border-bottom: 3px double var(--ink);
+    padding: 2rem 0 1rem;
+    text-align: center;
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+  }
+
+  .masthead-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .dateline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .title-block { text-align: center; flex: 1; }
+
+  .masthead h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .masthead-tagline {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 0.25rem;
+  }
+
+  .masthead-rule {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 0.75rem 2rem 0;
+  }
+
+  .nav {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    padding: 0 2rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .nav-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 0.3rem 1rem;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    border-radius: 2px;
+  }
+
+  .nav-item:hover, .nav-item.active {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(139,46,15,0.04);
+  }
+
+  /* LAYOUT */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  /* HERO */
+  .hero-strip {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2.5rem 2rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    min-height: 140px;
+  }
+
+  .hero-strip::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 80px);
+  }
+
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+    position: relative;
+  }
+
+  .hero-empty {
+    color: rgba(245,240,232,0.35);
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 1rem 0;
+  }
+
+  .hero-feature {
+    padding-right: 2rem;
+    border-right: 1px solid rgba(255,255,255,0.15);
+    cursor: pointer;
+  }
+
+  .hero-feature:last-child { border-right: none; padding-right: 0; }
+
+  .hero-category-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+    color: var(--paper);
+  }
+
+  .hero-excerpt {
+    font-size: 0.82rem;
+    color: rgba(245,240,232,0.6);
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  .hero-source {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: rgba(245,240,232,0.35);
+    margin-top: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* SECTION HEADERS */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--ink);
+    flex-wrap: wrap;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    font-style: italic;
+  }
+
+  .section-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .section-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+  }
+
+  .categories-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem 4rem;
+  }
+
+  .category-section {
+    animation: fadeUp 0.5s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .category-section:nth-child(1) { animation-delay: 0.05s; }
+  .category-section:nth-child(2) { animation-delay: 0.1s; }
+  .category-section:nth-child(3) { animation-delay: 0.15s; }
+  .category-section:nth-child(4) { animation-delay: 0.2s; }
+  .category-section:nth-child(5) { animation-delay: 0.25s; }
+  .category-section:nth-child(6) { animation-delay: 0.3s; }
+
+  /* ARTICLE ITEMS */
+  .article-list { list-style: none; }
+
+  .article-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 0.75rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: start;
+  }
+
+  .article-item:last-child { border-bottom: none; }
+
+  .article-item:hover .article-headline { color: var(--accent); }
+
+  .article-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--rule);
+    padding-top: 0.15rem;
+    min-width: 1.5rem;
+  }
+
+  .article-content { cursor: pointer; }
+
+  .article-type-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.2rem;
+  }
+
+  .article-type-tag.research { color: var(--science); }
+  .article-type-tag.commentary { color: var(--accent); }
+  .article-type-tag.report { color: var(--technology); }
+  .article-type-tag.analysis { color: var(--finance); }
+  .article-type-tag.paper { color: var(--ai); }
+
+  .article-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--ink);
+    transition: color 0.15s;
+    margin-bottom: 0.2rem;
+  }
+
+  .article-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .article-excerpt {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 0.3rem;
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  .article-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .article-item:hover .article-actions { opacity: 1; }
+
+  .btn-icon {
+    background: none;
+    border: 1px solid var(--rule);
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    padding: 0.25rem 0.4rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .btn-icon:hover { border-color: var(--danger); color: var(--danger); }
+  .btn-icon.edit:hover { border-color: var(--science); color: var(--science); }
+
+  /* EMPTY STATE */
+  .empty-state {
+    padding: 2rem 0;
+    text-align: center;
+    color: var(--muted);
+    font-style: italic;
+    font-size: 0.9rem;
+    border: 1px dashed var(--rule);
+  }
+
+  /* ADD / EDIT FORM */
+  .add-section {
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    display: none;
+  }
+
+  .add-section.open { display: block; animation: fadeUp 0.2s ease; }
+
+  .add-section h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    font-style: italic;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .form-field { display: flex; flex-direction: column; gap: 0.3rem; }
+  .form-field.full { grid-column: 1 / -1; }
+
+  .form-field label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .form-field input, .form-field select, .form-field textarea {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.85rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+    border-color: var(--ink);
+  }
+
+  .form-field textarea { resize: vertical; min-height: 60px; }
+
+  .btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.6rem 1.5rem;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+  }
+
+  .btn-primary { background: var(--ink); color: var(--paper); }
+  .btn-primary:hover { background: var(--accent); }
+  .btn-outline { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+  .btn-outline:hover { background: var(--ink); color: var(--paper); }
+
+  .btn-sm {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.75rem;
+    cursor: pointer;
+    border: 1px solid var(--rule);
+    background: transparent;
+    color: var(--muted);
+    transition: all 0.15s;
+  }
+
+  .btn-sm:hover { border-color: var(--ink); color: var(--ink); }
+  .btn-sm.primary-sm { border-color: var(--accent); color: var(--accent); }
+  .btn-sm.primary-sm:hover { background: var(--accent); color: var(--paper); }
+
+  .form-actions { display: flex; gap: 0.75rem; margin-top: 0.75rem; flex-wrap: wrap; }
+
+  /* TOOLBAR */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .toolbar-left {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .toolbar-right { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    padding: 0.75rem 1.25rem;
+    z-index: 999;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    pointer-events: none;
+  }
+
+  .toast.show { opacity: 1; transform: translateY(0); }
+  .toast.success { border-left: 3px solid var(--success); }
+  .toast.error { border-left: 3px solid var(--danger); }
+
+  /* LOADING */
+  .loading-state {
+    text-align: center;
+    padding: 3rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* MODAL CONFIRM */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,23,20,0.6);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    padding: 2rem;
+    max-width: 400px;
+    width: 90%;
+    animation: fadeUp 0.2s ease;
+  }
+
+  .modal h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .modal p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+
+  .modal-actions { display: flex; gap: 0.75rem; }
+
+  /* FOOTER */
+  footer {
+    border-top: 3px double var(--ink);
+    padding: 2rem;
+    text-align: center;
+    margin-top: 4rem;
+  }
+
+  footer p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* COLOR DOTS */
+  .dot-science { background: var(--science); }
+  .dot-technology { background: var(--technology); }
+  .dot-birds { background: var(--birds); }
+  .dot-warfare { background: var(--warfare); }
+  .dot-ai { background: var(--ai); }
+  .dot-finance { background: var(--finance); }
+
+  @media (max-width: 768px) {
+    .categories-grid { grid-template-columns: 1fr; }
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-feature { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 1.5rem; }
+    .hero-feature:last-child { border-bottom: none; }
+    .masthead-top { flex-direction: column; gap: 0.5rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .article-item { grid-template-columns: auto 1fr; }
+    .article-actions { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-top">
+    <span class="dateline" id="dateline"></span>
+    <div class="title-block">
+      <h1>The Dispatch</h1>
+      <p class="masthead-tagline">Curated Intelligence Across Six Domains</p>
+    </div>
+    <span class="dateline">itemsresearch.news</span>
+  </div>
+  <hr class="masthead-rule">
+  <nav class="nav" id="mainNav">
+    <span class="nav-item active" onclick="filterCategory('all', this)">All</span>
+    <span class="nav-item" onclick="filterCategory('science', this)">Science</span>
+    <span class="nav-item" onclick="filterCategory('technology', this)">Technology</span>
+    <span class="nav-item" onclick="filterCategory('birds', this)">Birds</span>
+    <span class="nav-item" onclick="filterCategory('warfare', this)">Modern Warfare</span>
+    <span class="nav-item" onclick="filterCategory('ai', this)">Artificial Intelligence</span>
+    <span class="nav-item" onclick="filterCategory('finance', this)">Financialization</span>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="hero-strip">
+  <div class="hero-inner" id="heroStrip">
+    <div class="hero-empty">Loading featured articles...</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+  <div class="toolbar">
+    <span class="toolbar-left" id="articleCount">Loading...</span>
+    <div class="toolbar-right">
+      <button class="btn-sm primary-sm" onclick="openGlobalAdd()">+ Add Article</button>
+      <button class="btn-sm" onclick="confirmResetAll()">Reset All</button>
+    </div>
+  </div>
+
+  <div class="categories-grid" id="categoriesGrid">
+    <div class="loading-state" style="grid-column:1/-1">Loading articles...</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>The Dispatch &nbsp;·&nbsp; Curated by hand &nbsp;·&nbsp; itemsresearch.news &nbsp;·&nbsp; Built for depth, not clicks</p>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal">
+    <h3 id="modalTitle">Are you sure?</h3>
+    <p id="modalMessage">This action cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="modalConfirmBtn">Confirm</button>
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// STORAGE KEY & DEFAULTS
+// ============================================================
+const STORAGE_KEY = 'dispatch-articles-v2';
+
+const DEFAULT_ARTICLES = [
+  { id: 1, category: 'science', type: 'research', headline: 'A New Hypothesis for How Life First Emerged on Earth', source: 'Nature', date: 'Feb 2026', excerpt: 'Researchers propose that mineral surfaces in hydrothermal vents may have catalyzed the first self-replicating molecules.', url: '#' },
+  { id: 2, category: 'science', type: 'report', headline: 'CRISPR Gene Editing Achieves First In-Body Human Trial Success', source: 'Science', date: 'Jan 2026', excerpt: 'A landmark study shows durable genetic correction in patients with a rare blood disorder, opening the door to in-vivo editing.', url: '#' },
+  { id: 3, category: 'science', type: 'commentary', headline: 'The Crisis in Scientific Replication Is Worse Than We Thought', source: 'The Atlantic', date: 'Dec 2025', excerpt: 'A sweeping review finds that fewer than half of landmark psychology and social science studies hold up under scrutiny.', url: '#' },
+  { id: 4, category: 'technology', type: 'report', headline: 'The Semiconductor Cold War: How Chip Controls Are Reshaping Global Power', source: 'MIT Technology Review', date: 'Feb 2026', excerpt: 'Export restrictions on advanced chips are accelerating a geopolitical fracture with consequences that will last generations.', url: '#' },
+  { id: 5, category: 'technology', type: 'analysis', headline: 'Why Quantum Computing Is Closer Than You Think — And Further Than You Hope', source: 'IEEE Spectrum', date: 'Jan 2026', excerpt: 'A clear-eyed assessment of where quantum advantage actually exists today and where the hype still outpaces the science.', url: '#' },
+  { id: 6, category: 'technology', type: 'commentary', headline: 'The Internet Was Never Designed for What We Are Doing to It', source: 'Wired', date: 'Dec 2025', excerpt: 'A trenchant argument that the architecture of the web makes systemic reform essentially impossible without starting over.', url: '#' },
+  { id: 7, category: 'birds', type: 'research', headline: 'Migratory Birds Are Changing Their Routes in Response to Climate Shifts', source: 'The Auk', date: 'Feb 2026', excerpt: 'Long-term banding data reveals that dozens of North American species have shifted their flyways northward by an average of 40 miles.', url: '#' },
+  { id: 8, category: 'birds', type: 'commentary', headline: 'What the Collapse of Bird Populations Tells Us About Ecological Collapse', source: 'The Guardian', date: 'Jan 2026', excerpt: 'Three billion birds lost in North America since 1970. Ornithologists say birds are the canary — and the canary is dying.', url: '#' },
+  { id: 9, category: 'birds', type: 'paper', headline: 'Corvid Intelligence: New Research Suggests Crows Plan for the Future', source: 'PNAS', date: 'Dec 2025', excerpt: 'Controlled experiments demonstrate that New Caledonian crows can delay gratification and select tools for anticipated future tasks.', url: '#' },
+  { id: 10, category: 'warfare', type: 'analysis', headline: 'Drone Swarms Are Changing the Calculus of Ground Warfare Permanently', source: 'War on the Rocks', date: 'Feb 2026', excerpt: 'Lessons from Ukraine suggest that the era of the main battle tank may be ending faster than any defense establishment anticipated.', url: '#' },
+  { id: 11, category: 'warfare', type: 'research', headline: 'The Precision Paradox: How Smart Bombs Made War More Politically Palatable', source: 'International Security', date: 'Jan 2026', excerpt: 'Reduced collateral damage lowered the political cost of military action — and may have made the use of force more frequent, not less.', url: '#' },
+  { id: 12, category: 'warfare', type: 'commentary', headline: 'Ukraine Has Revealed the Limits of Western Military Doctrine', source: 'Foreign Affairs', date: 'Jan 2026', excerpt: 'The conflict has exposed uncomfortable truths about industrial mobilization, ammunition production, and the myth of rapid decisive operations.', url: '#' },
+  { id: 13, category: 'ai', type: 'research', headline: 'Constitutional AI: Can We Actually Align Large Language Models with Human Values?', source: 'Anthropic Research', date: 'Feb 2026', excerpt: 'A rigorous examination of current alignment techniques and an honest accounting of what remains deeply unsolved.', url: '#' },
+  { id: 14, category: 'ai', type: 'commentary', headline: 'The Labor Market Disruption from AI Is Not Coming — It Is Here', source: 'The New York Times', date: 'Jan 2026', excerpt: 'White-collar knowledge work is being automated faster than economists predicted, with white-collar workers feeling the impact first.', url: '#' },
+  { id: 15, category: 'ai', type: 'analysis', headline: 'Why AI Safety and AI Capability Are Not as Opposed as You Think', source: 'Brookings Institution', date: 'Jan 2026', excerpt: 'A nuanced look at whether investing in safety research actually slows the development of powerful AI — and the evidence says no.', url: '#' },
+  { id: 16, category: 'finance', type: 'research', headline: 'Private Equity\'s Grip on American Healthcare Is Making People Sicker', source: 'New England Journal of Medicine', date: 'Feb 2026', excerpt: 'A landmark longitudinal study links PE ownership of hospitals and nursing homes to measurable increases in patient mortality.', url: '#' },
+  { id: 17, category: 'finance', type: 'commentary', headline: 'How Wall Street Learned to Love the Municipal Bond Market', source: 'New York Review of Books', date: 'Jan 2026', excerpt: 'The financialization of public debt has transferred enormous wealth from taxpayers to creditors — with almost no political accountability.', url: '#' },
+  { id: 18, category: 'finance', type: 'analysis', headline: 'The Pension Crisis Is a Slow-Motion Catastrophe for American Cities', source: 'The Atlantic', date: 'Dec 2025', excerpt: 'Underfunded public pensions represent one of the largest hidden liabilities in American public finance — and the bill is coming due.', url: '#' },
+];
+
+const CATEGORIES = [
+  { id: 'science',    label: 'Science',                dot: 'dot-science' },
+  { id: 'technology', label: 'Technology',              dot: 'dot-technology' },
+  { id: 'birds',      label: 'Birds',                   dot: 'dot-birds' },
+  { id: 'warfare',    label: 'Modern Warfare',          dot: 'dot-warfare' },
+  { id: 'ai',         label: 'Artificial Intelligence', dot: 'dot-ai' },
+  { id: 'finance',    label: 'Financialization',        dot: 'dot-finance' },
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let allArticles = [];
+let activeCategory = 'all';
+let editingId = null;
+let pendingDeleteId = null;
+let pendingAction = null;
+
+// ============================================================
+// STORAGE — Uses window.storage (persistent) with localStorage fallback
+// ============================================================
+async function loadArticles() {
+  try {
+    // Try persistent storage first
+    if (window.storage) {
+      const result = await window.storage.get(STORAGE_KEY);
+      if (result && result.value) {
+        allArticles = JSON.parse(result.value);
+        return;
+      }
+    }
+  } catch(e) {}
+
+  // Fallback: localStorage
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      allArticles = JSON.parse(stored);
+      return;
+    }
+  } catch(e) {}
+
+  // First run: load defaults
+  allArticles = [...DEFAULT_ARTICLES];
+  await saveArticles();
+}
+
+async function saveArticles() {
+  const data = JSON.stringify(allArticles);
+  let saved = false;
+
+  // Try persistent storage
+  if (window.storage) {
+    try {
+      await window.storage.set(STORAGE_KEY, data);
+      saved = true;
+    } catch(e) {}
+  }
+
+  // Always also save to localStorage as backup
+  try {
+    localStorage.setItem(STORAGE_KEY, data);
+    saved = true;
+  } catch(e) {}
+
+  return saved;
+}
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', async () => {
+  setDateline();
+  await loadArticles();
+  renderHero();
+  renderCategories();
+  updateCount();
+});
+
+function setDateline() {
+  const d = new Date();
+  const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  document.getElementById('dateline').textContent = d.toLocaleDateString('en-US', opts);
+}
+
+// ============================================================
+// HERO
+// ============================================================
+function renderHero() {
+  const strip = document.getElementById('heroStrip');
+  const featured = [];
+  const used = new Set();
+  for (const cat of ['science', 'warfare', 'finance', 'ai', 'technology', 'birds']) {
+    const a = allArticles.find(x => x.category === cat && !used.has(x.id));
+    if (a) { featured.push(a); used.add(a.id); }
+    if (featured.length === 3) break;
+  }
+
+  if (featured.length === 0) {
+    strip.innerHTML = '<div class="hero-empty">Add your first articles below to see them featured here.</div>';
+    return;
+  }
+
+  strip.innerHTML = featured.map(a => `
+    <div class="hero-feature" onclick="window.open('${escHtml(a.url)}','_blank')">
+      <div class="hero-category-tag">${categoryLabel(a.category)}</div>
+      <div class="hero-headline">${escHtml(a.headline)}</div>
+      ${a.excerpt ? `<div class="hero-excerpt">${escHtml(a.excerpt)}</div>` : ''}
+      <div class="hero-source">${escHtml(a.source)} &nbsp;·&nbsp; ${escHtml(a.date)}</div>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// CATEGORIES
+// ============================================================
+function renderCategories() {
+  const grid = document.getElementById('categoriesGrid');
+  const visibleCats = activeCategory === 'all'
+    ? CATEGORIES
+    : CATEGORIES.filter(c => c.id === activeCategory);
+
+  grid.innerHTML = visibleCats.map(cat => {
+    const catArticles = allArticles.filter(a => a.category === cat.id);
+    return `
+      <div class="category-section" id="cat-${cat.id}">
+        <div class="section-header">
+          <h2 class="section-title"><span class="section-dot ${cat.dot}"></span>${cat.label}</h2>
+          <span class="section-count">${catArticles.length} item${catArticles.length !== 1 ? 's' : ''}</span>
+          <button class="btn-sm primary-sm" style="margin-left:auto" onclick="openAddForm('${cat.id}')">+ Add</button>
+        </div>
+        ${catArticles.length === 0
+          ? `<div class="empty-state">No articles yet. Click "+ Add" to add the first one.</div>`
+          : `<ul class="article-list">
+              ${catArticles.map((a, i) => `
+                <li class="article-item">
+                  <span class="article-number">0${i + 1}</span>
+                  <div class="article-content" onclick="window.open('${escHtml(a.url)}','_blank')">
+                    <div class="article-type-tag ${a.type}">${a.type}</div>
+                    <div class="article-headline">${escHtml(a.headline)}</div>
+                    <div class="article-meta">${escHtml(a.source)} &nbsp;·&nbsp; ${escHtml(a.date)}</div>
+                    ${a.excerpt ? `<div class="article-excerpt">${escHtml(a.excerpt)}</div>` : ''}
+                  </div>
+                  <div class="article-actions">
+                    <button class="btn-icon edit" onclick="openEditForm(${a.id})">Edit</button>
+                    <button class="btn-icon" onclick="confirmDelete(${a.id})">Delete</button>
+                  </div>
+                </li>
+              `).join('')}
+            </ul>`
+        }
+        <div class="add-section" id="add-form-${cat.id}">
+          <h3 id="add-form-title-${cat.id}">Add article to ${cat.label}</h3>
+          <div class="form-row">
+            <div class="form-field full">
+              <label>Headline *</label>
+              <input type="text" id="f-headline-${cat.id}" placeholder="Article headline or title">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>Source / Publication *</label>
+              <input type="text" id="f-source-${cat.id}" placeholder="e.g. Nature, The Atlantic">
+            </div>
+            <div class="form-field">
+              <label>Date</label>
+              <input type="text" id="f-date-${cat.id}" placeholder="e.g. Feb 2026">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>Type</label>
+              <select id="f-type-${cat.id}">
+                <option value="report">Report</option>
+                <option value="research">Research</option>
+                <option value="commentary">Commentary</option>
+                <option value="analysis">Analysis</option>
+                <option value="paper">Paper</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>URL (link to article)</label>
+              <input type="text" id="f-url-${cat.id}" placeholder="https://...">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field full">
+              <label>Excerpt / Summary</label>
+              <textarea id="f-excerpt-${cat.id}" placeholder="A brief description of the article..."></textarea>
+            </div>
+          </div>
+          <input type="hidden" id="f-edit-id-${cat.id}" value="">
+          <div class="form-actions">
+            <button class="btn btn-primary" onclick="submitArticle('${cat.id}')">Save Article</button>
+            <button class="btn btn-outline" onclick="closeAddForm('${cat.id}')">Cancel</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ============================================================
+// FILTER
+// ============================================================
+function filterCategory(cat, el) {
+  activeCategory = cat;
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+  renderCategories();
+  updateCount();
+}
+
+function updateCount() {
+  const visible = activeCategory === 'all'
+    ? allArticles.length
+    : allArticles.filter(a => a.category === activeCategory).length;
+  document.getElementById('articleCount').textContent =
+    `${visible} article${visible !== 1 ? 's' : ''} ${activeCategory === 'all' ? 'across all categories' : 'in this category'}`;
+}
+
+// ============================================================
+// ADD / EDIT
+// ============================================================
+function openGlobalAdd() {
+  const firstCat = activeCategory === 'all' ? CATEGORIES[0].id : activeCategory;
+  openAddForm(firstCat);
+}
+
+function openAddForm(catId) {
+  document.querySelectorAll('.add-section.open').forEach(f => f.classList.remove('open'));
+  clearForm(catId);
+  const form = document.getElementById(`add-form-${catId}`);
+  const title = document.getElementById(`add-form-title-${catId}`);
+  if (title) title.textContent = `Add article to ${categoryLabel(catId)}`;
+  if (form) {
+    form.classList.add('open');
+    setTimeout(() => form.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+  }
+}
+
+function openEditForm(id) {
+  const article = allArticles.find(a => a.id === id);
+  if (!article) return;
+
+  const catId = article.category;
+  document.querySelectorAll('.add-section.open').forEach(f => f.classList.remove('open'));
+
+  document.getElementById(`f-headline-${catId}`).value = article.headline;
+  document.getElementById(`f-source-${catId}`).value = article.source;
+  document.getElementById(`f-date-${catId}`).value = article.date;
+  document.getElementById(`f-type-${catId}`).value = article.type;
+  document.getElementById(`f-url-${catId}`).value = article.url || '';
+  document.getElementById(`f-excerpt-${catId}`).value = article.excerpt || '';
+  document.getElementById(`f-edit-id-${catId}`).value = id;
+
+  const title = document.getElementById(`add-form-title-${catId}`);
+  if (title) title.textContent = `Edit article`;
+
+  const form = document.getElementById(`add-form-${catId}`);
+  if (form) {
+    form.classList.add('open');
+    setTimeout(() => form.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+  }
+}
+
+function closeAddForm(catId) {
+  const form = document.getElementById(`add-form-${catId}`);
+  if (form) form.classList.remove('open');
+  clearForm(catId);
+}
+
+function clearForm(catId) {
+  ['headline','source','date','url','excerpt'].forEach(f => {
+    const el = document.getElementById(`f-${f}-${catId}`);
+    if (el) el.value = '';
+  });
+  const typeEl = document.getElementById(`f-type-${catId}`);
+  if (typeEl) typeEl.value = 'report';
+  const editEl = document.getElementById(`f-edit-id-${catId}`);
+  if (editEl) editEl.value = '';
+}
+
+async function submitArticle(catId) {
+  const headline = document.getElementById(`f-headline-${catId}`).value.trim();
+  const source   = document.getElementById(`f-source-${catId}`).value.trim();
+  const date     = document.getElementById(`f-date-${catId}`).value.trim() || 'Recent';
+  const type     = document.getElementById(`f-type-${catId}`).value;
+  const url      = document.getElementById(`f-url-${catId}`).value.trim() || '#';
+  const excerpt  = document.getElementById(`f-excerpt-${catId}`).value.trim();
+  const editId   = document.getElementById(`f-edit-id-${catId}`).value;
+
+  if (!headline || !source) {
+    showToast('Please enter at least a headline and source.', 'error');
+    return;
+  }
+
+  if (editId) {
+    // UPDATE
+    const idx = allArticles.findIndex(a => a.id === parseInt(editId));
+    if (idx !== -1) {
+      allArticles[idx] = { ...allArticles[idx], headline, source, date, type, url, excerpt };
+      await saveArticles();
+      showToast('Article updated and saved.', 'success');
+    }
+  } else {
+    // CREATE
+    const newArticle = {
+      id: Date.now(),
+      category: catId,
+      type, headline, source, date, url, excerpt
+    };
+    allArticles.unshift(newArticle);
+    await saveArticles();
+    showToast('Article added and saved permanently.', 'success');
+  }
+
+  renderHero();
+  renderCategories();
+  updateCount();
+}
+
+// ============================================================
+// DELETE
+// ============================================================
+function confirmDelete(id) {
+  const article = allArticles.find(a => a.id === id);
+  if (!article) return;
+  pendingDeleteId = id;
+  pendingAction = 'delete';
+  document.getElementById('modalTitle').textContent = 'Delete this article?';
+  document.getElementById('modalMessage').textContent = `"${article.headline}" will be permanently removed.`;
+  document.getElementById('modalConfirmBtn').onclick = executeDelete;
+  document.getElementById('confirmModal').classList.add('open');
+}
+
+async function executeDelete() {
+  if (!pendingDeleteId) return;
+  allArticles = allArticles.filter(a => a.id !== pendingDeleteId);
+  await saveArticles();
+  renderHero();
+  renderCategories();
+  updateCount();
+  closeModal();
+  showToast('Article deleted.', 'success');
+  pendingDeleteId = null;
+}
+
+function confirmResetAll() {
+  pendingAction = 'reset';
+  document.getElementById('modalTitle').textContent = 'Reset all articles?';
+  document.getElementById('modalMessage').textContent = 'This will remove all your custom articles and restore the original sample content.';
+  document.getElementById('modalConfirmBtn').onclick = executeReset;
+  document.getElementById('confirmModal').classList.add('open');
+}
+
+async function executeReset() {
+  allArticles = [...DEFAULT_ARTICLES];
+  await saveArticles();
+  renderHero();
+  renderCategories();
+  updateCount();
+  closeModal();
+  showToast('Articles reset to defaults.', 'success');
+}
+
+function closeModal() {
+  document.getElementById('confirmModal').classList.remove('open');
+  pendingDeleteId = null;
+  pendingAction = null;
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+let toastTimer;
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.classList.remove('show'); }, 3000);
+}
+
+// ============================================================
+// UTILS
+// ============================================================
+function categoryLabel(id) {
+  const cat = CATEGORIES.find(c => c.id === id);
+  return cat ? cat.label : id;
+}
+
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// Close modal on overlay click
+document.getElementById('confirmModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+</script>
+</body>
+</html>
